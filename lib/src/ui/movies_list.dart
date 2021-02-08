@@ -2,11 +2,33 @@ import 'package:blocPattern/src/models/item_model.dart';
 import 'package:flutter/material.dart';
 import '../blocs/movies_bloc.dart';
 
-class MovieList extends StatelessWidget {
+class MovieList extends StatefulWidget {
+
+  /*
+  Never make any network or db call inside the build method and always make sure you dispose or close the open streams.
+  */
+
+  @override
+  _MovieListState createState() => _MovieListState();
+}
+
+class _MovieListState extends State<MovieList> {
+
+  @override
+  void initState(){
+    super.initState();
+    bloc.fetchAllMovies();
+  }
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchAllMovies();
     return Scaffold(
       appBar: AppBar(
         title: Text('Popular Movies'),
@@ -35,5 +57,4 @@ class MovieList extends StatelessWidget {
         fit: BoxFit.cover,);
     });
   }
-
 }
